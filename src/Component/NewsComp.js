@@ -5,6 +5,19 @@ import Spinner from './Spinner';
 export class NewsComponent extends Component {
   // articles naam ka array bana leinge 
   
+  // yeh hain proptypes default and their types 
+  static bydefault = {
+    country : 'in',
+    pageSize : 6,
+    category : "general"
+  }
+
+  static propTypes = {
+    country : PropTypes.string,
+    pageSize : PropTypes.number,
+    category : PropTypes.string
+  }
+
   constructor(){
     super();
     console.log("i am constructor");
@@ -18,10 +31,11 @@ export class NewsComponent extends Component {
 
 // make functions for the buttons 
 
+
 handlePrevclick= async ()=>{
   console.log("Previous");
   
-  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+  let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
   this.setState({
     loading:true
   })
@@ -40,7 +54,7 @@ handleNextclick= async ()=>{
   console.log("Next");
 
   if(this.state.page + 1 <= Math.ceil(this.state.totalResults / this.props.pageSize)){
-    let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+    let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
     this.setState({
       loading:true
     })
@@ -62,8 +76,8 @@ handleNextclick= async ()=>{
 
   async componentDidMount(){
     console.log("cdm");
-    // axios.get('https://newsapi.org/v2/everything?q=sports&apiKey=<KEY>')
-    let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=1&pageSize=3}`;
+    // axios.get('https://newsapi.org/v2/everything?q=sports&category=${this.props.category}&apiKey=<KEY>')
+    let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=f0c2c60b39fd4d18b220bbcefb20e865&page=1&pageSize=3}`;
     // pageSize = 21 matab 1 page pr 21 news aaeingii
     let data =await fetch(url);
     let parsedata = await data.json();
@@ -80,7 +94,7 @@ handleNextclick= async ()=>{
   render() {
     return (
       <div className="container my-3" >
-        <h1 className='text-center'>News App - Top Headlines</h1>
+        <h1 className='text-center' style={{margin:'30px 30px'}}>News App - Top Headlines</h1>
         {/* jab jab request jaegii tab true krna h  */}
         {this.state.loading && <Spinner/>}
         
@@ -95,7 +109,7 @@ handleNextclick= async ()=>{
             // ek key use kareinge jo ki uniques hogi i.e url of the source , jo ki return ho jaegi 
             return <div className="col-md-4" key={i}>
               {/* <NewsItemComp title = "Mytitle" description = "xyz" imageurl = "https://i.insider.com/64f217441e6afd00196a380f?width=1200&format=jpeg" newsurl = "TODO"/> */}
-              <NewsItemComp title = {ele.title ? ele.title.slice(0,45): " "} description = {ele.description ? ele.description.slice(0,88): " "} imageurl = {ele.urlToImage} newsurl = {ele.url}/>
+              <NewsItemComp title = {ele.title ? ele.title.slice(0,45): " "} description = {ele.description ? ele.description.slice(0,88): " "} imageurl = {ele.urlToImage} newsurl = {ele.url} author = {ele.author} date={ele.publishedAt} source={ele.source.name}/>
 
               {/* tile lamba hone ki wajah se blocks uper nicche ho rhe hain  */}
             </div>
