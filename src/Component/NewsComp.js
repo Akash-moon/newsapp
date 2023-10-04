@@ -11,6 +11,8 @@ export class NewsComponent extends Component {
   
   // yeh hain proptypes default and their types 
 
+
+  
   static propTypes = {
     country : PropTypes.string,
     pageSize : PropTypes.number,
