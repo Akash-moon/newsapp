@@ -15,9 +15,10 @@ export class NewsItemComp extends Component {
     return (
       <div className="my-3">
         <div className="card">
-          <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left :'90%',zIndex : '1'}}>
+          <span className="badge rounded-pill bg-danger" style={{display:'flex',justifyContent:'flex-end',position:'absolute',right:'0'}}>
                   {source}
           </span>
+
           <img src={imageurl ? imageurl : "https://www.hindustantimes.com/ht-img/img/2023/09/24/1600x900/Priyanka_chopra_1695518968332_1695518998538.jpg" } className="card-img-top" alt="..." />
           <div className="card-body">
             <h5 className="card-title">{title} </h5>
